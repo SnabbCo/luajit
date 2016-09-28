@@ -156,11 +156,13 @@ local function prof_annotate(count1, samples)
     ms = math.max(ms, v)
     if pct >= prof_min then
       local file, line = k:match("^(.*):(%d+)$")
+      if not file then goto next end
       local fl = files[file]
       if not fl then fl = {}; files[file] = fl; files[#files+1] = file end
       line = tonumber(line)
       fl[line] = prof_raw and v or pct
     end
+    ::next::
   end
   sort(files)
   local fmtv, fmtn = " %3d%% | %s\n", "      | %s\n"
